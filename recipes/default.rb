@@ -7,43 +7,43 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe 'git'
 include_recipe 'nodejs'
 include_recipe 'mongodb'
 
-group 'uptime'
-user 'uptime'
-
-directory '/opt/uptime' do
-  recursive true
-  owner 'uptime'
-  group 'uptime'
-  mode '0755'
+user 'uptime' do
+  gid 'uptime'
+  supports manage_home: true
+  home '/opt/uptime'
 end
 
-git 'uptime' do
-  path '/opt/uptime'
-  repository node['uptime']['repo']['url']
-  revision   node['uptime']['repo']['ref']
+app_root = '/opt/uptime/src'
+
+git app_root do
+  repository node['app_uptime']['repo']['url']
+  revision   node['app_uptime']['repo']['ref']
   action     :sync
-  notifies   :run, "execute[uptime-install]"
+  user       'uptime'
+  notifies   :run, 'execute[uptime-install]'
 end
 
 execute 'uptime-install' do
-  cwd '/opt/uptime'
+  cwd     app_root
+  user    'uptime'
   command 'npm install'
 end
 
-template '/opt/uptime/config/production.yml' do
-  source 'config.yml.erb'
+template "#{app_root}/config/production.yml" do
+  source   'config.yml.erb'
   cookbook 'uptime'
-  owner 'uptime'
-  group 'uptime'
-  mode '0644'
+  owner    'uptime'
+  group    'uptime'
+  mode     '0644'
   variables({
-    url:              node['uptime']['url'],
-    plugins:          node['uptime']['plugins'],
-    external_plugins: node['uptime']['external_plugins'],
-    monitor_config:   node['uptime']['monitor'],
-    analyzer_config:  node['uptime']['analyzer']
+    url:              node['app_uptime']['url'],
+    plugins:          node['app_uptime']['plugins'],
+    external_plugins: node['app_uptime']['external_plugins'],
+    monitor_config:   node['app_uptime']['monitor'],
+    analyzer_config:  node['app_uptime']['analyzer']
   })
 end

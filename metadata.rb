@@ -6,5 +6,6 @@ description      'Installs/Configures fzaninotto/uptime'
 long_description 'Installs/Configures fzaninotto/uptime'
 version          '0.1.0'
 
+depends 'git'
 depends 'nodejs' # https://github.com/redguide/nodejs/
 depends 'mongodb'
