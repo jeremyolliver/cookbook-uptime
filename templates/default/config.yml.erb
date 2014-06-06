@@ -1,0 +1,28 @@
+url:        '<%= @url %>'
+
+mongodb:
+  server:   localhost
+  database: uptime
+  user:     root
+  password:
+  connectionString:       # alternative to setting server, database, user and password separately
+
+monitor:
+<% @monitor_config.each do |key, value| -%>
+  <%= key %>:       <%= value %>
+<% end -%>
+
+analyzer:
+<% @analyzer_config.each do |key, value| -%>
+  <%= key %>:       <%= value %>
+<% end -%>
+
+autoStartMonitor: true
+
+plugins:
+<% @plugins.each do |plugin | -%>
+  - ./plugins/<%= plugin %>
+<% end -%>
+<%- @external_plugins.each do |plugin| -%>
+  - <%= plugin %>
+<% end -%>
