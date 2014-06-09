@@ -9,10 +9,14 @@
 
 include_recipe 'git'
 include_recipe 'nodejs'
-include_recipe 'mongodb'
+include_recipe 'mongodb::mongodb_org_repo' # to ensure we get a recent enough version
+include_recipe 'mongodb::default'
+
+group 'uptime'
 
 user 'uptime' do
   gid 'uptime'
+  shell '/bin/bash'
   supports manage_home: true
   home '/opt/uptime'
 end
@@ -24,13 +28,17 @@ git app_root do
   revision   node['app_uptime']['repo']['ref']
   action     :sync
   user       'uptime'
-  notifies   :run, 'execute[uptime-install]'
+  group      'uptime'
+  # notifies   :run, 'bash[uptime-npm-install]'
+  notifies   :restart, 'service[uptime]'
 end
 
-execute 'uptime-install' do
-  cwd     app_root
-  user    'uptime'
-  command 'npm install'
+bash 'uptime-npm-install' do
+  cwd   app_root
+  user  'uptime'
+  group 'uptime'
+  code  "cd #{app_root} && /usr/bin/npm install"
+  action :nothing
 end
 
 template "#{app_root}/config/production.yml" do
@@ -46,4 +54,21 @@ template "#{app_root}/config/production.yml" do
     monitor_config:   node['app_uptime']['monitor'],
     analyzer_config:  node['app_uptime']['analyzer']
   })
+  notifies :restart, 'service[uptime]'
+end
+
+
+package 'build-essential' do
+  action :nothing
+end.run_action(:install)
+chef_gem 'pleaserun'
+
+bash 'generate-service-script' do
+  code "#{Gem.default_bindir}/pleaserun --user uptime --description 'Uptime monitor https://github.com/fzaninotto/uptime' --group uptime --name uptime --verbose --chdir #{app_root} --install 'node app'"
+  not_if { ::File.exist?('/etc/init/uptime.conf') }
+end
+
+service 'uptime' do
+  provider Chef::Provider::Service::Upstart
+  action [:start, :enable]
 end
