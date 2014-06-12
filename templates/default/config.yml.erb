@@ -3,9 +3,9 @@ url:        '<%= @url %>'
 mongodb:
   server:   localhost
   database: uptime
-  user:     root
-  password:
-  connectionString:       # alternative to setting server, database, user and password separately
+  user:     <%= @mongo_user %>
+  password: <%= @mongo_password %>
+  # connectionString:       # alternative to setting server, database, user and password separately
 
 monitor:
 <% @monitor_config.each do |key, value| -%>

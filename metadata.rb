@@ -9,3 +9,5 @@ version          '0.1.0'
 depends 'git'
 depends 'nodejs' # https://github.com/redguide/nodejs/
 depends 'mongodb'
+
+supports 'ubuntu' # So far, only an upstart service script is provided
