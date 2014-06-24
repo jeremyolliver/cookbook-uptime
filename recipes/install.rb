@@ -19,7 +19,8 @@ git app_root do
   action     :sync
   user       'uptime'
   group      'uptime'
-  notifies   :install, 'nodejs_npm[node-uptime]'
+  # notifies   :install, 'nodejs_npm[node-uptime]'
+  notifies   :run, 'bash[uptime-npm-install]'
   notifies   :restart, 'service[uptime]'
 end
 
@@ -41,11 +42,22 @@ template "#{app_root}/config/production.yml" do
   notifies :restart, 'service[uptime]'
 end
 
-nodejs_npm 'node-uptime' do
+nodejs_npm 'node-gyp' do
   path app_root
-  # options ['--production','--force']
   user 'uptime'
   group 'uptime'
+end
+
+bash "uptime-npm-install" do
+  user 'uptime'
+  group 'uptime'
+  environment({
+    'HOME'     => '/opt/uptime',
+    'NODE_ENV' => 'production'
+  })
+  cwd app_root
+  code "/usr/bin/npm install"
+  action :nothing # only run when git source changes
 end
 
 template '/etc/init/uptime.conf' do
