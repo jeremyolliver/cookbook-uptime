@@ -1,9 +1,9 @@
 # 0.1.0
 
-Initial release of application
+Initial release of uptime
 
-* Enhancements
-  * an enhancement
-
-* Bug Fixes
-  * a bug fix
+* Features
+  * Installs app from github source
+  * Installs npm
+  * Installs mongodb
+  * Runs app as Upstart service for ubuntu
