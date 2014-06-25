@@ -86,6 +86,28 @@ Include `uptime::default` in your node's `run_list`:
 * Support service configurations for running the uptime process on other platforms
 * Add an optional nginx proxy recipe
 
+## Testing
+
+This cookbook is tested on ubuntu 12.04 and 14.04
+This cookbook has a test kitchen setup to converge the recipes on those platforms locally.
+
+To run those tests:
+
+Setup:
+
+* Install the ruby development dependencies: `gem install bundler && bundle install`
+* Install [vagrant](https://www.vagrantup.com/)
+* Install [VirtualBox](https://www.virtualbox.org/)
+* `vagrant plugin install vagrant-omnibus`
+* `vagrant plugin install vagrant-berkshelf`
+
+Run:
+
+    # Code linting (also run on CI)
+    rake style
+    # Integration tests (Not currently run on CI)
+    kitchen verify all
+
 ## Contributing
 
 1. Fork the repository on Github
