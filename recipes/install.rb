@@ -19,7 +19,6 @@ git app_root do
   action     :sync
   user       'uptime'
   group      'uptime'
-  # notifies   :install, 'nodejs_npm[node-uptime]'
   notifies   :run, 'bash[uptime-npm-install]'
   notifies   :restart, 'service[uptime]'
 end
@@ -42,12 +41,6 @@ template "#{app_root}/config/production.yml" do
   notifies :restart, 'service[uptime]'
 end
 
-nodejs_npm 'node-gyp' do
-  path app_root
-  user 'uptime'
-  group 'uptime'
-end
-
 bash "uptime-npm-install" do
   user 'uptime'
   group 'uptime'
@@ -60,17 +53,6 @@ bash "uptime-npm-install" do
   action :nothing # only run when git source changes
 end
 
-template '/etc/init/uptime.conf' do
-  source 'uptime.conf'
-  owner 'root'
-  group 'root'
-end
-
-service 'uptime' do
-  provider Chef::Provider::Service::Upstart
-  action [:start, :enable]
-end
-
 # package 'build-essential' do
 #   action :nothing
 # end.run_action(:install)
@@ -80,5 +62,3 @@ end
 #   code "#{Gem.default_bindir}/pleaserun --user uptime --description 'Uptime monitor https://github.com/fzaninotto/uptime' --group uptime --name uptime --verbose --chdir #{app_root} --install 'node app'"
 #   not_if { ::File.exist?('/etc/init/uptime.conf') }
 # end
-
-

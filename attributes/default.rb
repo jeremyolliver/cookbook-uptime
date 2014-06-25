@@ -1,9 +1,9 @@
-## WARNING: node['uptime'] is reserved for ohai system information
+## WARNING: node['uptime'] attribute is reserved for ohai system information
 
 default['app_uptime']['repo']['url'] = 'https://github.com/fzaninotto/uptime.git'
 default['app_uptime']['repo']['ref'] = 'd9cc96cc835b65577e9bc8c94625eb2706a1b923' # Ideally a tag e.g. v3.1 (if it actually worked)
 
-default['app_uptime']['url']              = "http://#{node.fqdn}:3000" # You should override this
+default['app_uptime']['url']              = "http://#{node['fqdn']}:3000" # You should override this
 default['app_uptime']['plugins']          = ['console', 'patternMatcher', 'httpOptions', 'email']
 default['app_uptime']['external_plugins'] = []
 

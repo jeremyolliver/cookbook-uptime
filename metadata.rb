@@ -11,3 +11,7 @@ depends 'nodejs' # https://github.com/redguide/nodejs/
 depends 'mongodb'
 
 supports 'ubuntu' # So far, only an upstart service script is provided
+
+provides 'uptime::default'
+provides 'service[uptime]'
+provides 'service[mongod]'

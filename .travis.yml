@@ -1,0 +1,15 @@
+---
+language: ruby
+rvm:
+  - 2.0.0
+cache:
+  - bundler
+bundler_args: --without integration
+script: bundle exec rake travis:ci
+branches:
+  only:
+    - master
+    - develop
+notifications:
+  recipients:
+    - jeremy.olliver@gmail.com
