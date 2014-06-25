@@ -29,7 +29,7 @@ mongo_password = node['app_uptime']['mongo']['password']
 
 execute 'create-mongodb-uptime-user' do
   # TODO: second param is the db_name
-  command "/usr/bin/mongo uptime --eval 'db.addUser(\"#{mongo_user}\",\"#{mongo_password}\")'"
+  command "/usr/bin/mongo uptime --eval 'db.createUser({user: \"#{mongo_user}\", pwd: \"#{mongo_password}\", roles: [{ role: \"readWrite\", db: \"uptime\" }]})'"
   action  :run
   not_if  "/usr/bin/mongo uptime --eval 'db.auth(\"#{mongo_user}\",\"#{mongo_password}\")' | grep -q ^1$"
 end
