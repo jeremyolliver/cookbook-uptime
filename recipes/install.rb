@@ -52,13 +52,3 @@ bash "uptime-npm-install" do
   code "/usr/bin/npm install"
   action :nothing # only run when git source changes
 end
-
-# package 'build-essential' do
-#   action :nothing
-# end.run_action(:install)
-# chef_gem 'pleaserun'
-
-# bash 'generate-service-script' do
-#   code "#{Gem.default_bindir}/pleaserun --user uptime --description 'Uptime monitor https://github.com/fzaninotto/uptime' --group uptime --name uptime --verbose --chdir #{app_root} --install 'node app'"
-#   not_if { ::File.exist?('/etc/init/uptime.conf') }
-# end
