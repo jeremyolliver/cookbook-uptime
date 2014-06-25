@@ -1,5 +1,7 @@
 # uptime cookbook
 
+[![Build Status](https://travis-ci.org/jeremyolliver/cookbook-uptime.svg?branch=master)](https://travis-ci.org/jeremyolliver/cookbook-uptime) Linting test status
+
 This cookbook installs and runs the [uptime](https://github.com/fzaninotto/uptime) http service monitoring application and runs it as a non-privileged user.
 
 ## Supported Platforms
