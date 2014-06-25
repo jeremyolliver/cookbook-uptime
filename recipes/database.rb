@@ -12,20 +12,22 @@
 include_recipe 'mongodb::mongodb_org_repo' # to ensure we get a recent enough version
 include_recipe 'mongodb::default' # provides service[mongod]
 
-include_recipe 'openssl' # random password generation
 
-::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
-node.set_unless['app_uptime']['mongo']['password'] = secure_password
+if Chef::Config[:solo]
+  if node['app_uptime']['mongo']['password'] && node['app_uptime']['mongo']['password'] != ''
+    Chef::Log.info('Using set mongodb password for uptime db auth')
+  else
+    fail "You must set a mongodb password in the attribute ['app_uptime']['mongo']['password'] when running in chef solo mode"
+  end
+else
+  include_recipe 'openssl' # random password generation
+
+  ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+  node.set_unless['app_uptime']['mongo']['password'] = secure_password
+end
 
 mongo_user = node['app_uptime']['mongo']['user']
 mongo_password = node['app_uptime']['mongo']['password']
-# mongo_password = if (password_set = node['app_uptime']['mongo']['password'])
-#   password_set
-# else
-#   generated_password = 4 # TODO
-#   node.set['app_uptime']['mongo']['password'] = generated_password
-#   generated_password
-# end
 
 execute 'create-mongodb-uptime-user' do
   # TODO: second param is the db_name

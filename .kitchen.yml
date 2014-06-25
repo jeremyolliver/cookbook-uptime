@@ -16,3 +16,6 @@ suites:
       - 'recipe[apt]'
       - 'recipe[uptime]'
     attributes:
+      app_uptime:
+        mongo:
+          password: PLEASESETYOUROWNPASSWORD
