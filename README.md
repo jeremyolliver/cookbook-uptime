@@ -6,7 +6,7 @@ This cookbook installs and runs the [uptime](https://github.com/fzaninotto/uptim
 
 ## Supported Platforms
 
-ubuntu - see TODO for notes on running with other platforms
+So far Ubuntu 12.04, and 14.04 are is the only fully supported platform - due to use of an Upstart service script. If you are using another platform, using the `upstart::install` and `upstart::database` recipes and your own service provider should work for you.
 
 ## Attributes
 
@@ -80,6 +80,10 @@ Include `uptime::default` in your node's `run_list`:
   ]
 }
 ```
+
+If you are using chef-solo, then you will need to manually set a password for the mongodb instance `['app_uptime']['mongo']['password'] = 'pleasepickyourownpassword'`. chef-client when used with a server (either open source or enterprise) - will automatically generate and store a password in the same attribute.
+
+It is also recommended to put a web server such as apache or nginx in front of this as a proxy, as this application is intentionally run as a non-privileged user, which means it cannot be run on port 80 or 443 directly.
 
 ## TODO
 
