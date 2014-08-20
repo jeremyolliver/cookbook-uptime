@@ -33,7 +33,7 @@ So far Ubuntu 12.04, and 14.04 are is the only fully supported platform - due to
     <td><tt>['app_uptime']['url']</tt></td>
     <td>String</td>
     <td>URL (with optional port) to bind to - should be 1024 or higher as runs unprivileged</td>
-    <td><tt>"http://#{node['fqdn']}:3000"</tt></td>
+    <td><tt>"http://#{node['fqdn']}:8082"</tt></td>
   </tr>
   <tr>
     <td><tt>['app_uptime']['plugins']</tt></td>
