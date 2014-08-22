@@ -4,6 +4,10 @@ Breaking Changes:
 
 * Default listen location changed from `http://FQDN:3000` -> `http://localhost:8082`
 
+New Features:
+
+* Includes an LWRP. You can now define checks with `uptime_check`
+
 # 0.1.0
 
 Initial release of uptime

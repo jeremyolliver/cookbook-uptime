@@ -89,11 +89,11 @@ It is also recommended to put a web server such as apache or nginx in front of t
 
 This cookbook also provides an LWRP for programmatically adding URLs to check
 
-uptime_check 'redmine' do
-  url "http://redmine.example.com"
-end
+    uptime_check 'redmine' do
+      url "http://redmine.example.com"
+    end
 
-Action's supported `:create` (creates or updates) and `:delete`. The `name` and `url` attributes are required. All others are optional, and leave the defaults up to the API
+Action's supported: `:create` (the default - creates or updates) and `:delete`. The `name` and `url` attributes are required. All others are optional, and leave the defaults up to the API
 
 <table>
   <tr>
