@@ -2,7 +2,7 @@ def whyrun_supported?
   true
 end
 
-UPTIME_CHECK_ATTRIBUTES = [:url, :interval, :maxTime, :alertTreshold, :tags, :isPaused]
+UPTIME_CHECK_ATTRIBUTES = [:name, :url, :interval, :maxTime, :alertTreshold, :tags, :isPaused]
 
 # We MUST override this method in our custom provider
 def load_current_resource
@@ -32,21 +32,33 @@ def current_resource_attributes
 end
 
 action :create do
-  if check_id = UptimeApiCall.check_exists?(@current_resource.url)
-    converge_by("Update Uptime Check #{ @current_resource.name }") do
-      UptimeApiCall.update_check(check_id, current_resource_attributes)
+  # Set URL from node attribute params
+  UptimeHelpers::UptimeCheck.api_endpoint = "#{node['app_uptime']['url']}/api"
+
+  if check = UptimeHelpers::UptimeCheck.find_by_url(@current_resource.url)
+    if check.changed?(current_resource_attributes)
+      converge_by("Updating Uptime Check - #{@current_resource.url}") do
+        check.update!(current_resource_attributes)
+      end
+    else
+      Chef::Log.info("Uptime Check - #{@current_resource.url} already up to date - skipping")
     end
   else
-    converge_by("Create Uptime Check #{ @current_resource.name }") do
-      UptimeApiCall.create_check(current_resource_attributes)
+    converge_by("Creating Uptime Check - #{@current_resource.url}") do
+      UptimeHelpers::UptimeCheck.create!(current_resource_attributes)
     end
   end
 end
 
 action :delete do
-  if check_id = UptimeApiCall.check_exists?(@current_resource.url)
-    converge_by("Delete Uptime Check #{ @current_resource.name }") do
-      UptimeApiCall.delete_check(check_id)
+  # Set URL from node attribute params
+  UptimeHelpers::UptimeCheck.api_endpoint = "#{node['app_uptime']['url']}/api"
+
+  if check = UptimeHelpers::UptimeCheck.find_by_url(@current_resource.url)
+    converge_by("Deleting Uptime Check - #{@current_resource.url}") do
+      check.delete!
     end
+  else
+    Chef::Log.info("Uptime Check - #{@current_resource.url} already deleted - skipping")
   end
 end

@@ -12,6 +12,8 @@ include_recipe 'uptime::database'
 # Create 'uptime' user and install the app from source
 include_recipe 'uptime::install'
 
+chef_gem 'rest-client' # For API calls in LWRP
+
 ###################
 ## Service script #
 ###################
@@ -27,4 +29,8 @@ end
 service 'uptime' do
   provider Chef::Provider::Service::Upstart
   action [:start, :enable]
+end
+
+uptime_check 'uptime-local' do
+  url node['app_uptime']['url']
 end

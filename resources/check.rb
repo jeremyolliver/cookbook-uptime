@@ -1,13 +1,3 @@
-# # Resource: Check
-# ## name
-# # url (required)
-# # type
-# # interval
-# # max_time (maxTime)
-# # threshold (alertTreshold)
-# # tags
-# # paused (isPaused)
-
 actions :create, :delete
 default_action :create
 
@@ -19,5 +9,3 @@ attribute :maxTime,       :kind_of => Integer
 attribute :alertTreshold, :kind_of => Integer
 attribute :tags,          :kind_of => Array
 attribute :isPaused,      :kind_of => [TrueClass, FalseClass], :default => false
-
-attr_accessor :exists

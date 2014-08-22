@@ -85,6 +85,64 @@ If you are using chef-solo, then you will need to manually set a password for th
 
 It is also recommended to put a web server such as apache or nginx in front of this as a proxy, as this application is intentionally run as a non-privileged user, which means it cannot be run on port 80 or 443 directly.
 
+### LWRP
+
+This cookbook also provides an LWRP for programmatically adding URLs to check
+
+uptime_check 'redmine' do
+  url "http://redmine.example.com"
+end
+
+Action's supported `:create` (creates or updates) and `:delete`. The `name` and `url` attributes are required. All others are optional, and leave the defaults up to the API
+
+<table>
+  <tr>
+    <th>Param</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><tt>name</tt></td>
+    <td>String</td>
+    <td>The label/name to display in the interface</td>
+  </tr>
+  <tr>
+    <td><tt>url</tt></td>
+    <td>String</td>
+    <td>The URL to monitor</td>
+  </tr>
+  <tr>
+    <td><tt>type</tt></td>
+    <td>String</td>
+    <td>Optional - can specify non http(s) checks using this</td>
+  </tr>
+  <tr>
+    <td><tt>interval</tt></td>
+    <td>Integer</td>
+    <td>Time between checks in (seconds)</td>
+  </tr>
+  <tr>
+    <td><tt>maxTime</tt></td>
+    <td>Integer</td>
+    <td>Time until considered timed out (milliseconds)</td>
+  </tr>
+  <tr>
+    <td><tt>alertTreshold</tt></td>
+    <td>Integer</td>
+    <td>Down for this many checks before alerting (Param name not a typo)</td>
+  </tr>
+  <tr>
+    <td><tt>tags</tt></td>
+    <td>Array</td>
+    <td>An Array of strings, to tag your check with (e.g. datacenter)</td>
+  </tr>
+  <tr>
+    <td><tt>isPaused</tt></td>
+    <td>Boolean</td>
+    <td>Set to true to temporarily disable the check, set to false to enable again</td>
+  </tr>
+</table>
+
 ## TODO
 
 * Support service configurations for running the uptime process on other platforms
