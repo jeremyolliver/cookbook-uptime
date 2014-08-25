@@ -25,7 +25,13 @@ module UptimeHelpers
     end
 
     def changed?(new_attributes = {})
-
+      new_attributes.each do |key, value|
+        if value != @attributes[key.to_s]
+          Chef::Log.debug("Uptime Check found to differ on #{key}")
+          return true
+        end
+      end
+      false
     end
 
     def update!(new_attributes = {})
