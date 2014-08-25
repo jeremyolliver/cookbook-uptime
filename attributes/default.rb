@@ -6,6 +6,7 @@ default['app_uptime']['repo']['ref'] = 'd9cc96cc835b65577e9bc8c94625eb2706a1b923
 default['app_uptime']['url']              = "http://localhost:8082" # You should override this
 default['app_uptime']['plugins']          = ['console', 'patternMatcher', 'httpOptions', 'email']
 default['app_uptime']['external_plugins'] = []
+default['app_uptime']['config']           = {}
 
 default['app_uptime']['monitor']['pollingInterval']         = 10000
 default['app_uptime']['monitor']['timeout']                 = 5000

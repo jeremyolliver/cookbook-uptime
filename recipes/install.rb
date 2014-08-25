@@ -38,6 +38,7 @@ template "#{app_root}/config/production.yml" do
     analyzer_config:  node['app_uptime']['analyzer'],
     mongo_user:       node['app_uptime']['mongo']['user'],
     mongo_password:   node['app_uptime']['mongo']['password'],
+    config:           node['app_uptime']['config']
   })
   notifies :restart, 'service[uptime]'
 end

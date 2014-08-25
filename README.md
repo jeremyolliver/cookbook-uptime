@@ -65,6 +65,12 @@ So far Ubuntu 12.04, and 14.04 are is the only fully supported platform - due to
     <td>MongoDB password</td>
     <td><tt>A secure randomly generated value by openssl</tt></td>
   </tr>
+  <tr>
+    <td><tt>['app_uptime']['config']</tt></td>
+    <td>Hash</td>
+    <td>Arbitrary config options</td>
+    <td><tt>Any config not already supported here (e.g. custom plugin config) can be supplied here</tt></td>
+  </tr>
 </table>
 
 ## Usage
@@ -142,6 +148,8 @@ Action's supported: `:create` (the default - creates or updates) and `:delete`. 
     <td>Set to true to temporarily disable the check, set to false to enable again</td>
   </tr>
 </table>
+
+Checks stored in the database are uniquely identified by their URL. Changing the URL in your recipe will create a new check - the old one can be removed with `action :delete` or manually.
 
 ## TODO
 
