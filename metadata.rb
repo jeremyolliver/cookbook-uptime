@@ -4,7 +4,7 @@ maintainer_email 'jeremy.olliver@gmail.com'
 license          'apachev2'
 description      'Installs/Configures fzaninotto/uptime'
 long_description 'Installs/Configures fzaninotto/uptime'
-version          '0.2.0'
+version          '0.2.1'
 
 depends 'build-essential'
 depends 'git'
