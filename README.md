@@ -4,6 +4,11 @@
 
 This cookbook installs and runs the [uptime](https://github.com/fzaninotto/uptime) http service monitoring application and runs it as a non-privileged user.
 
+## Dependencies
+
+This cookbook depends on the `nodejs` cookbook from https://github.com/redguide/nodejs - not the stock nodejs cookbook from chef community/supermarket site.
+Ensure you install this cookbook specifically.
+
 ## Supported Platforms
 
 So far Ubuntu 12.04, and 14.04 are is the only fully supported platform - due to use of an Upstart service script. If you are using another platform, using the `upstart::install` and `upstart::database` recipes and your own service provider should work for you.
