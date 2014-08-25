@@ -1,3 +1,14 @@
+# 0.2.1
+
+Features:
+
+* Arbitrary config options are now supported under `node['app_uptime']['config']` - plugins can now be configured under here.
+
+Bugfixes:
+
+* The `uptime_check` resource now correctly checks for modifications, only updating if required
+* Removed an example test lwrp usage from the default recipe
+
 # 0.2.0
 
 Breaking Changes:
